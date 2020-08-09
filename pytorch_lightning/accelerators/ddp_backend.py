@@ -48,6 +48,7 @@ class DDPBackend(LightningBackend):
         self.task_idx = None
 
     def setup(self, model, task_type: str = None):
+        super().setup(model)
         if task_type.lower() == 'slurm':
             self.task_idx = int(os.environ['SLURM_LOCALID'])
         elif task_type.lower() == 'torchelastic':
@@ -56,7 +57,7 @@ class DDPBackend(LightningBackend):
     def train(self):
         self._ddp_training(process_idx=self.task_idx, mp_queue=None, model=self._model)
 
-    def spawn_ddp_children(self, model):
+    def spawn_ddp_children(self):
         port = os.environ['MASTER_PORT']
 
         master_address = '127.0.0.1' if 'MASTER_ADDR' not in os.environ else os.environ['MASTER_ADDR']
@@ -116,7 +117,7 @@ class DDPBackend(LightningBackend):
             sleep(delay)
 
         local_rank = 0
-        results = self._ddp_training(local_rank, mp_queue=None, model=model, is_master=True)
+        results = self._ddp_training(local_rank, mp_queue=None, model=self._model, is_master=True)
         del os.environ['WORLD_SIZE']
 
         return results
