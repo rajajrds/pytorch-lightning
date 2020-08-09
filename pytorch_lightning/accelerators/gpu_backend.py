@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+from pytorch_lightning.accelerators.base import LightningBackend
 from pytorch_lightning.core import LightningModule
 from pytorch_lightning.utilities import AMPType
 
@@ -21,16 +21,15 @@ except ImportError:
     amp = None
 
 
-class GPUBackend(object):
+class GPUBackend(LightningBackend):
     amp_type: AMPType
 
     def __init__(self, trainer):
+        super().__init__(trainer)
         self.trainer = trainer
 
     def setup(self, model):
-
-        # call setup
-        self.trainer.call_setup_hook(model)
+        super().setup(model)
 
         model.cuda(self.trainer.root_gpu)
 
@@ -45,8 +44,8 @@ class GPUBackend(object):
             model = self._setup_nvidia_apex(model)
         return model
 
-    def train(self, model):
-        results = self.trainer.run_pretrain_routine(model)
+    def train(self):
+        results = self.trainer.run_pretrain_routine(self._model)
         return results
 
     def _setup_nvidia_apex(self, model: LightningModule):
