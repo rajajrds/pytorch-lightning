@@ -235,6 +235,8 @@ class DDPBackend(object):
         # persist info in ddp_spawn
         self.trainer.transfer_distrib_spawn_state_on_fit_end(model, mp_queue, results)
 
+        torch.distributed.destroy_process_group()
+
         # clean up memory
         torch.cuda.empty_cache()
 
