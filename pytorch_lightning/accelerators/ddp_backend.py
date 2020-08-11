@@ -255,8 +255,8 @@ class DistributedConnection:
 
         # if not torch.distributed.is_initialized():
 
-        if torch.distributed.is_initialized():
-            torch.distributed.destroy_process_group()
+        # if torch.distributed.is_initialized():
+        #     torch.distributed.destroy_process_group()
 
         print('init ddp', 'rank', trainer.global_rank, 'port', self._get_master_port())
         model.init_ddp_connection(trainer.global_rank, trainer.world_size, trainer.is_slurm_managing_tasks)
@@ -298,12 +298,12 @@ class DistributedConnection:
         # s.close()
         # #sleep(10)
 
-        # def exit_handler():
-        #     if torch.distributed.is_initialized() and trainer.global_rank > 0:
-        #         print('destroying on ', trainer.global_rank)
-        #         torch.distributed.destroy_process_group()
-        #
-        # atexit.register(exit_handler)
+        def exit_handler():
+            if torch.distributed.is_initialized() and trainer.global_rank > 0:
+                print('destroying on ', trainer.global_rank)
+                torch.distributed.destroy_process_group()
+
+        atexit.register(exit_handler)
 
     def _get_master_port(self):
         return os.environ.get('MASTER_PORT')
