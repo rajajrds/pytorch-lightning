@@ -97,7 +97,7 @@ class DDPBackend(object):
         os.environ['WORLD_SIZE'] = f'{num_gpus * self.trainer.num_nodes}'
 
         self.trainer.interactive_ddp_procs = []
-        for local_rank in range(1, self.trainer.num_processes):
+        for local_rank in range(0, self.trainer.num_processes):
             env_copy = os.environ.copy()
             env_copy['LOCAL_RANK'] = f'{local_rank}'
 
@@ -116,10 +116,10 @@ class DDPBackend(object):
             sleep(delay)
 
         local_rank = 0
-        results = self.ddp_train(local_rank, mp_queue=None, model=model, is_master=True)
+        # results = self.ddp_train(local_rank, mp_queue=None, model=model, is_master=True)
         del os.environ['WORLD_SIZE']
 
-        return results
+        #return results
 
     def ddp_train(self, process_idx, mp_queue, model, is_master=False, proc_offset=0):
         """
