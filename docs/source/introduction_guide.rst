@@ -21,14 +21,12 @@ Why PyTorch Lightning
 
 a. Less boilerplate
 ===================
-
 Writing code for complex deep learning research experiments tends to be... complex. Training on distributed hardware, using 16-bit percision, implementing early stopping or checkpointing requires non trivial engineering skills, could make research code get massive and make it increasingly harder to debug.
 PyTorch Lightning provides a very simple template for organizing your PyTorch code, to decouple your research code from the engineering. It leaves the core research logic to you and automates all the rest, still giving you full control over every single part.
 Writing less engineering code means iterating and prototyping much faster!
 
 b. More functionality
 =====================
-
 With PyTorch Lightning you can leverage code written by hundreds of AI researchers, research engs and PhDs from the world's top AI labs, implementing all the latest best practices and SOTA features such as
 
 - GPU, Multi GPU, TPU training
@@ -39,13 +37,11 @@ With PyTorch Lightning you can leverage code written by hundreds of AI researche
 
 c. Less error prone
 ===================
-
 Why invent the wheel? Use PyTorch Lightning to enjoy a deep learning structure that is rigorously tested (500+ tests) across CPUs/multi-GPUs/multi-TPUs on every pull-request.
 
 d. No need to learn a new library
 =================================
-
-PyTorch Lightning is basically organized PyTorch- no need to learn a new language. Switching your model to Lightnig is pretty stright farward- here's the typical PyTorch project structure organized in a LightningModule.
+PyTorch Lightning is basically organized PyTorch- no need to learn a new language. Switching your model to Lightning is pretty straight forward- here's the typical PyTorch project structure organized in a LightningModule.
 
 .. figure:: https://pl-bolts-doc-images.s3.us-east-2.amazonaws.com/pt_animation_gif.gif
    :alt: Convert from PyTorch to Lightning
